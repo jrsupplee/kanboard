@@ -1,5 +1,13 @@
 <?php
 
+require_once 'vendor/autoload.php';
+global $twig;
+
+$loader = new \Twig\Loader\FilesystemLoader('app/Template');
+$twig = new \Twig\Environment($loader, [
+    'cache' => 'template_cache',
+]);
+
 use Kanboard\Core\Controller\Runner;
 
 try {

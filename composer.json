@@ -35,7 +35,8 @@
         "swiftmailer/swiftmailer" : "5.4.8",
         "symfony/console" : "3.4.2",
         "symfony/event-dispatcher" : "3.4.2",
-        "gregwar/captcha": "1.1.4"
+        "gregwar/captcha": "1.1.4",
+        "twig/twig": "^2.0"
     },
     "autoload" : {
         "classmap" : ["app/"],

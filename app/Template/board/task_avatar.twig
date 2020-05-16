@@ -1,0 +1,16 @@
+{% autoescape false %}
+{% if task.owner_id is not empty %}
+<div class="task-board-avatars">
+    <span
+        {% if user_perms.project_access %}
+            class="task-board-assignee task-board-change-assignee"
+            data-url="{{ helper.view_href }}"
+        {% else %}
+            class="task-board-assignee"
+        {% endif %}
+    >
+        {{ helper.assignee_avatar }}
+    </span>
+</div>
+{% endif %}
+{% endautoescape %}

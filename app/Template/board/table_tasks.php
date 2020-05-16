@@ -1,4 +1,10 @@
 <!-- task row -->
+<?php
+    global $twig;
+    $task_public_template = $twig->load('board/task_public.twig');
+    $task_private_template = $twig->load('board/task_private.twig');
+    require 'app/Core/TwigHelper.php';
+?>
 <tr class="board-swimlane board-swimlane-tasks-<?= $swimlane['id'] ?><?= $swimlane['task_limit'] && $swimlane['nb_tasks'] > $swimlane['task_limit'] ? ' board-task-list-limit' : '' ?>">
     <?php foreach ($swimlane['columns'] as $column): ?>
         <td class="
@@ -15,11 +21,26 @@
                 data-task-limit="<?= $column['task_limit'] ?>">
 
                 <?php foreach ($column['tasks'] as $task): ?>
-                    <?= $this->render($not_editable ? 'board/task_public' : 'board/task_private', array(
+                    <?php
+                    $template = $task_private_template;
+                    if ($not_editable) {
+                        $template = $task_public_template;
+                    }
+                    $helper = new \Kanboard\Core\TwigHelper(
+                        $this,
+                        $task,
+                        $project,
+                        $not_editable,
+                        $board_highlight_period
+                    );
+                    echo $template->render( array(
+                        'helper' => $helper,
                         'project' => $project,
                         'task' => $task,
-                        'board_highlight_period' => $board_highlight_period,
-                        'not_editable' => $not_editable,
+                        'user_perms' => array(
+                                'project_access' => $this->user->hasProjectAccess('TaskModificationController', 'edit', $task['project_id']),
+                                'update_task' => $this->projectRole->canUpdateTask($task),
+                        ),
                     )) ?>
                 <?php endforeach ?>
             </div>

@@ -1,0 +1,36 @@
+{% autoescape false %}
+<div class="
+        task-board
+        color-{{ task.color_id }}
+        {% if helper.recently_modified %}
+            task-board-recent
+        {% endif %}
+    "
+>
+    <div class="task-board-header">
+        <a href="{{ helper.view_href }}">
+            #{{ task.id }}
+        </a>
+
+        <a href="{{ helper.view_href }}">
+            {{ task.title | escape }}
+        </a>
+
+        {% if task.owner_id %}
+        <span class="task-board-assignee">
+            {{ helper.assignee_name | escape }}
+        </span>
+        {% endif %}
+
+        {% include 'board/task_avatar.twig' %}
+    </div>
+
+    {{ helper.hook_before }}
+    <div class="task-board-title">
+        {{ helper.title }}
+    </div>
+    {{ helper.hook_after }}
+
+    {{ task_footer }}
+</div>
+{% endautoescape %}
